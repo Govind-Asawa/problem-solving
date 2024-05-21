@@ -1,20 +1,22 @@
 # https://leetcode.com/problems/search-suggestions-system/
+# two pointer approach: faster
 class Solution:
     def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
-        prev = sorted(products)
-        current, ans = [], []
+        sp = sorted(products)
+        start, end = 0, len(products)-1
+        ans = []
 
         for i in range(len(searchWord)):
-            for prd in prev:
-                if len(prd) > i and prd[i] == searchWord[i]:
-                    current.append(prd)
+            while start <= end and (len(sp[start]) <= i or sp[start][i] != searchWord[i]):
+                start += 1
+
+            while end >= start and (len(sp[end]) <= i or sp[end][i] != searchWord[i]):
+                end -= 1
+
+            if start > end:
+                ans.append([])
             
-            if len(current) < 3:
-                ans.append(current[:])
             else:
-                ans.append(current[:3])
-            
-            prev = current
-            current = []
+                ans.append(sp[start: min(start+3, end+1)])    
 
         return ans
