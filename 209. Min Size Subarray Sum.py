@@ -1,33 +1,20 @@
 # https://leetcode.com/problems/minimum-size-subarray-sum/
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        l, r = 1, len(nums)
+        l, r = 0, 0
+        tot = 0
+        minlen = 100001
 
-        def check(k):
-            tot = 0
-            start, end = 0, 0
-
-            while end < len(nums):
-                tot += nums[end]
-
-                if (end-start+1) > k:
-                    tot -= nums[start]
-                    start += 1
-                
-                if (end-start+1) == k and tot >= target:
-                    return True
-                
-                end += 1
-        
-            return False
-
-
-        while l <= r:
-            size = l + (r-l)//2
-
-            if check(size):
-                r = size-1
+        # this is possible bcoz nums only have positive values
+        while r <= len(nums):
+            if tot >= target:
+                minlen = min(minlen, r-l)
+                tot -= nums[l]
+                l += 1
             else:
-                l = size+1
+                if r == len(nums):
+                    break
+                tot += nums[r]
+                r += 1
         
-        return l if l <= len(nums) else 0
+        return minlen if minlen != 100001 else 0
