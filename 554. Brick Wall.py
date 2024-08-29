@@ -12,3 +12,20 @@ class Solution:
                 gaps[cum] += 1
 
         return len(wall) - max(gaps.values()) if gaps else len(wall)
+
+# Another try
+class Solution:
+    def leastBricks(self, wall: List[List[int]]) -> int:
+        crossmap = {}
+        maxSameEnd = 0
+        
+        for row in wall:
+            csum = 0
+            rset = set()
+            for brick in row[:-1]:
+               csum += brick
+               crossmap[csum] = crossmap.get(csum, 0)+1
+               maxSameEnd = max(maxSameEnd, crossmap[csum])
+
+        return len(wall) - maxSameEnd
+        
