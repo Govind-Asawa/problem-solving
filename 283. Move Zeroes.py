@@ -18,3 +18,17 @@ class Solution:
             else:
                 nums[left], nums[right] = nums[right], nums[left]
         nums.pop()
+
+# Easy approach
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # we just have to put non-zeros in the front, in order
+        p = 0
+
+        for i in range(0, len(nums)):
+            if nums[i]:
+                nums[i], nums[p] = nums[p], nums[i]
+                p += 1
